@@ -1,0 +1,45 @@
+
+spring:
+  cloud:
+    stream:
+      function:
+        definition: customerProducer;customerConsumer
+      kinesis:
+        binder:
+          kpl-kcl-enabled: true
+      bindings:
+        customerProducer-out-0:
+          destination: test_stream_jc_glue
+#          content-type: application/json
+          content-type: application/*+avro
+        customerConsumer-in-0:
+          destination: test_stream_jc_glue
+#          content-type: application/json
+          content-type: application/*+avro
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+#logging:
+#  level:
+#    com:
+#      amazonaws:
+#        services:
+#          schemaregistry: debug
+#    org:
+#      apache:
+#        http: info
+#      springframework:
+#        cloud:
+#          stream: debug
+#        integration: debug
+
+cloud:
+  aws:
+    region:
+      static: us-east-1
+    stack:
+      auto: false

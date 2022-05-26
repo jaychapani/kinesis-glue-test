@@ -1,0 +1,26 @@
+{
+  "namespace": "com.jaychapani.kinesisglue.model",
+  "type": "record",
+  "name": "Customer",
+  "fields": [
+    {
+      "name": "id",
+      "type": [
+        "int",
+        "null"
+      ]
+    },
+    {
+      "name": "firstName",
+      "type": "string"
+    },
+    {
+      "name": "lastName",
+      "type": "string"
+    },
+    {
+      "name": "address",
+      "type": "string"
+    }
+  ]
+}
