@@ -2,6 +2,7 @@ package com.jaychapani.kinesisglue.config;
 
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.services.kinesis.producer.KinesisProducerConfiguration;
+import com.amazonaws.services.kinesis.producer.UserRecord;
 import com.amazonaws.services.schemaregistry.common.configs.GlueSchemaRegistryConfiguration;
 import com.amazonaws.services.schemaregistry.utils.AWSSchemaRegistryConstants;
 import com.amazonaws.services.schemaregistry.utils.AvroRecordType;
@@ -10,8 +11,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.function.context.converter.avro.AvroSchemaMessageConverter;
 import org.springframework.cloud.function.context.converter.avro.AvroSchemaServiceManagerImpl;
+import org.springframework.cloud.stream.config.ProducerMessageHandlerCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.integration.aws.outbound.KplMessageHandler;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.converter.MessageConverter;
 import org.springframework.stereotype.Component;
 
@@ -57,4 +62,20 @@ public class MyProducerConfig {
         return avroSchemaMessageConverter;
     }
 
+    @Bean
+    ProducerMessageHandlerCustomizer<KplMessageHandler> kplMessageHandlerCustomizer() {
+        return (handler, destinationName) -> handler.setMessageConverter(new MessageConverter() {
+
+            @Override
+            public Object fromMessage(Message<?> message, Class<?> targetClass) {
+                return ((UserRecord) message.getPayload()).getData().array();
+            }
+
+            @Override
+            public Message<?> toMessage(Object payload, MessageHeaders headers) {
+                return null;
+            }
+
+        });
+    }
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 public class CustomerController {
 
@@ -18,7 +20,7 @@ public class CustomerController {
     private CustomerStreamConfiguration customerStreamConfiguration;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Boolean> add(@RequestBody Customer customer) {
+    public ResponseEntity<Boolean> add(@RequestBody Customer customer) throws IOException {
 
         customerStreamConfiguration.addCustomer(customer);
 
