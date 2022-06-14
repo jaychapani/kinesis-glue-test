@@ -20,7 +20,7 @@ public class CustomerController {
     private CustomerStreamConfiguration customerStreamConfiguration;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Boolean> add(@RequestBody Customer customer) throws IOException {
+    public ResponseEntity<Boolean> addCustomer(@RequestBody Customer customer) throws IOException {
 
         customerStreamConfiguration.addCustomer(customer);
 

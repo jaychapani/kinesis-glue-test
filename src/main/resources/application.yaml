@@ -1,28 +1,39 @@
 
 spring:
   cloud:
+    schema:
+      registry-name: default-registry
     stream:
       function:
-        definition: customerProducer;customerConsumer
+        definition: customerProducer;customerConsumer;userProducer;userConsumer
       kinesis:
         binder:
-          kpl-kcl-enabled: true
+          kpl-kcl-enabled: false
         bindings:
           customerConsumer-in-0:
+            consumer:
+              shardIteratorType: TRIM_HORIZON
+          userConsumer-in-0:
             consumer:
               shardIteratorType: TRIM_HORIZON
       bindings:
         customerProducer-out-0:
           producer:
-            useNativeEncoding: true
-          destination: test_stream_jc_glue
-#          content-type: application/json
-          content-type: application/*+avro
+            useNativeEncoding: false
+          destination: test_stream_jc_glue_json
+          content-type: application/json
+#          content-type: application/*+avro
         customerConsumer-in-0:
           consumer:
-            useNativeDecoding: true
-          destination: test_stream_jc_glue
-#          content-type: application/json
+            useNativeDecoding: false
+          destination: test_stream_jc_glue_json
+          content-type: application/json
+#          content-type: application/*+avro
+        userProducer-out-0:
+          destination: test_stream_jc_user
+          content-type: application/*+avro
+        userConsumer-in-0:
+          destination: test_stream_jc_user
           content-type: application/*+avro
 
 management:
