@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Customer",
+  "description": "Customer schema",
+  "className": "com.jaychapani.kinesisglue.model.Customer",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a customer",
+      "type": "integer"
+    },
+    "firstName": {
+      "description": "First Name of the customer",
+      "type": "string"
+    },
+    "lastName": {
+      "description": "Last Name of the customer",
+      "type": "string"
+    },
+    "address": {
+      "description": "Address of the customer",
+      "type": "string"
+    }
+  }
+}
