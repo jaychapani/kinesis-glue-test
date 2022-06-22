@@ -9,8 +9,6 @@ import org.apache.avro.Schema;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.io.Encoder;
 import org.apache.avro.io.EncoderFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.function.context.converter.avro.AvroSchemaMessageConverter;
 import org.springframework.cloud.function.context.converter.avro.AvroSchemaServiceManagerImpl;
@@ -40,6 +38,7 @@ public class GlueAvroMessageConverter extends AvroSchemaMessageConverter {
         super(new MimeType("application", "avro"), new AvroSchemaServiceManagerImpl());
         GlueSchemaRegistryConfiguration configs = new GlueSchemaRegistryConfiguration("us-east-1");
         configs.setRegistryName("glue-registry-test");
+        configs.setSchemaAutoRegistrationEnabled(false);
         this.glueSchemaRegistryConfig = configs;
     }
 

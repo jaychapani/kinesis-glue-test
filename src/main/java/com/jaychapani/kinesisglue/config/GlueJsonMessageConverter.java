@@ -14,6 +14,8 @@ import com.amazonaws.services.schemaregistry.serializers.json.JsonDataWithSchema
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kjetland.jackson.jsonSchema.JsonSchemaConfig;
+import com.kjetland.jackson.jsonSchema.JsonSchemaDraft;
 import com.kjetland.jackson.jsonSchema.JsonSchemaGenerator;
 
 import org.json.JSONObject;
@@ -72,6 +74,7 @@ public class GlueJsonMessageConverter extends MappingJackson2MessageConverter {
         GlueSchemaRegistryDataFormatDeserializer gsrDataFormatDeserializer =
             new GlueSchemaRegistryDeserializerFactory().getInstance(DataFormat.JSON, glueSchemaRegistryConfig);
 
+
         Schema awsSchema = glueSchemaRegistryDeserializer.getSchema(payload);
         result = gsrDataFormatDeserializer.deserialize(ByteBuffer.wrap(payload), awsSchema);
 
@@ -87,7 +90,9 @@ public class GlueJsonMessageConverter extends MappingJackson2MessageConverter {
         try {
             //schemaString = new JSONObject(new JSONTokener(new FileReader("src/main/json/customer.json"))).toString();
             ObjectMapper objectMapper = new ObjectMapper();
-            JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(objectMapper);
+            JsonSchemaConfig jsonSchemaConfig = JsonSchemaConfig.vanillaJsonSchemaDraft4().withJsonSchemaDraft(
+                JsonSchemaDraft.DRAFT_07);
+            JsonSchemaGenerator jsonSchemaGenerator = new JsonSchemaGenerator(objectMapper,jsonSchemaConfig);
 
             JsonNode jsonSchema = jsonSchemaGenerator.generateJsonSchema(payload.getClass());
 

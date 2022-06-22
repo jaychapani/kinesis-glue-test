@@ -1,8 +1,6 @@
 
 spring:
   cloud:
-    schema:
-      registry-name: default-registry
     stream:
       function:
         definition: customerProducer;customerConsumer;userProducer;userConsumer
